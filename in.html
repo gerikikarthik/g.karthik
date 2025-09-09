@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Internship Finder</title>
+
+  <!-- CSS -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                  url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f") 
+                  no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Form container */
+    #search {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px;
+      border-radius: 20px;
+      width: 600px;
+      max-width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    #search h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #01060a;
+      box-shadow: 0 0 8px rgba(79, 172, 254, 0.6);
+    }
+
+    #search-btn {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: #e67373;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 16px;
+      border: black;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      width: 100%;
+      letter-spacing: 1px;
+    }
+
+    #search-btn:hover {
+      transform: scale(1.08);
+      background: linear-gradient(to right, #00f2fe, #4facfe);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+
+    .card {
+      background: #fff;
+      margin: 15px 0;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="search">
+      <h2>Search for Internships</h2>
+      <form id="search-form">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location"><br><br>
+        <label for="industry">Industry:</label>
+        <input type="text" id="industry" name="industry"><br><br>
+        <label for="duration">Duration:</label>
+        <input type="text" id="duration" name="duration"><br><br>
+        <button id="search-btn">Search</button>
+        
+      </form>
+      <section id="results">
+        <h2>Search Results</h2>
+        <div id="results-container"></div>
+      </section>
+    </section>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    const internships = [
+      { title: "Software Engineering Intern", location: "New York", industry: "Tech", duration: "3 months" },
+      { title: "Marketing Intern", location: "Los Angeles", industry: "Marketing", duration: "6 months" },
+      { title: "Data Science Intern", location: "San Francisco", industry: "Data Science", duration: "3 months" },
+      { title: "Product Management Intern", location: "Chicago", industry: "Product Management", duration: "6 months" },
+    ];
+
+    document.getElementById("search-btn").addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const location = document.getElementById("location").value.toLowerCase();
+      const industry = document.getElementById("industry").value.toLowerCase();
+      const duration = document.getElementById("duration").value.toLowerCase();
+
+      const results = internships.filter((internship) => {
+        return (
+          internship.location.toLowerCase().includes(location) ||
+          internship.industry.toLowerCase().includes(industry) ||
+          internship.duration.toLowerCase().includes(duration)
+        );
+      });
+
+      const resultsContainer = document.getElementById("results-container");
+      resultsContainer.innerHTML = "";
+
+      if (results.length > 0) {
+        results.forEach((result) => {
+          const internshipHTML = `
+            <div class="card">
+              <h3>${result.title}</h3>
+              <p><strong>Location:</strong> ${result.location}</p>
+              <p><strong>Industry:</strong> ${result.industry}</p>
+              <p><strong>Duration:</strong> ${result.duration}</p>
+            </div>
+          `;
+          resultsContainer.insertAdjacentHTML("beforeend", internshipHTML);
+        });
+      } else {
+        resultsContainer.innerHTML = "<p style='color:red;'>No internships found. Try different keywords.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
